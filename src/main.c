@@ -23,6 +23,7 @@ void *scp(void *ptr) // SDL check pointer
 int main(int argc, char *argv[])
 {
   scc(SDL_Init(SDL_INIT_VIDEO));
+  printf("OH MY FUCKING GOD IT DOES WORK WOW WOW OWO WOWOWOWOWOWO!!!!!!!!");
 
   SDL_Window *window = scp(SDL_CreateWindow("Window", 100, 100, 800, 600, SDL_WINDOW_RESIZABLE));
   SDL_Renderer *renderer = scp(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED));
