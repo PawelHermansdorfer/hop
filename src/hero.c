@@ -1,34 +1,50 @@
 #include <SDL2/SDL.h>
+#include <stdio.h>
 
 #include <vectors.h>
 #include <hero.h>
 
 
 Character CreateHero(void) {
- Character hero = {.rect = {50, 50, 50, 50},
-                   .speed = CreateVector2(0, 0),
-                   .max_speed = 10,
-                   .acceleration = CreateVector2(0, 0)};
- return hero;
+ return (Character) {.rect = {50, 50, 50, 50},
+                     .speed = CreateVector2(0, 0),
+                     .max_speed = 10,
+                     .drag_force = 1.5,
+                     .acceleration = CreateVector2(0, 0),
+                     .movement_speed = 5,
+                     };
 }
 
-void UpdateCharacter(Character *character)
+
+void update_character(Character *character)
 {
  character->speed = Vector2Add(character->speed, character->acceleration);
  character->acceleration = CreateVector2(0, 0);
 
- character->rect.x += character->speed.x;
- character->rect.y += character->speed.y;
-}
+ if (character->speed.x > character->max_speed)
+ {
+  character->speed.x = character->max_speed;
+ }
+ else if (character->speed.x < -character->max_speed)
+ {
+  character->speed.x = -character->max_speed;
+ }
 
-void MoveCharacter(Character *character, Sint8 direction)
-{
- // 1 -> right || 1 -> left
- character->acceleration.x = direction;
+ character->speed = Vector2DivF(character->speed, character->drag_force);
+
+ character->rect.x += round(character->speed.x);
+ character->rect.y += round(character->speed.y);
+
 }
 
 
 void ApplyGravity(Character *character)
 {
- character->acceleration.y += 1;
+ // TODO(Aa_Pawelek): Gravity
+}
+
+// 1 -> right || 1 -> left
+void MoveCharacter(Character *character, Sint8 direction)
+{
+ character->acceleration.x = direction * character->movement_speed;
 }

@@ -5,11 +5,16 @@
 typedef struct {
  SDL_Rect rect;
  Vector2 speed;
- Uint8 max_speed;
+ float max_speed;
+ float drag_force;
  Vector2 acceleration;
-} Character;
+ float movement_speed;
+}
+Character;
 
 Character CreateHero(void);
 void MoveCharacter(Character *character, Sint8 direction);
+void update_character(Character *character);
+void ApplyGravity(Character *character);
 
 #endif
