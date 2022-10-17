@@ -60,7 +60,11 @@ int main(int argc, char *argv[])
 
   // Capping frame rate
   float elapsedMS = (end_time - start_time) / (float)SDL_GetPerformanceFrequency() * 100.0f;
-  SDL_Delay(floor(16.666f - elapsedMS));
+  
+  if (elapsedMS < 16.666666f)
+  {
+   SDL_Delay(floor(16.666666f - elapsedMS));
+  }
  }
 
  SDL_Quit();
