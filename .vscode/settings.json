@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "sdl.h": "c",
-        "functions.h": "c",
-        "hero.h": "c"
-    }
-}
