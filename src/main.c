@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
    SDL_Delay(floor(16.666666f - elapsedMS));
   }
  }
+
  SDL_Quit();
  return 0;
 }
