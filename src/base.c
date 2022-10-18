@@ -1,8 +1,9 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include <functions.h>
+#include <base.h>
 
+// SDL secured call
 void scc(int error_code) {
  if (error_code < 0) {
   printf("SDL ERROR: %s\n", SDL_GetError());
@@ -10,6 +11,7 @@ void scc(int error_code) {
  }
 }
 
+// SDL secured pointer
 void *scp(void *ptr) {
  if(ptr == NULL) {
   printf("SDL ERROR: %s\n", SDL_GetError());

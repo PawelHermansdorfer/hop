@@ -20,8 +20,7 @@ find_package(SDL2 CONFIG REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 # Linking
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${PROJECT_NAME}
                       ${OPENGL_LIBRARY}
                       ${SDL2_LIBRARIES}
                       )
-

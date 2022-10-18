@@ -1,20 +1,23 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include <functions.h>
+#include <base.h>
 #include <vectors.h>
-#include <hero.h>
+#include <agent.h>
+
 
 int main(int argc, char *argv[])
 {
  // Init SDL2
  scc(SDL_Init(SDL_INIT_VIDEO));
 
- SDL_Window *window = scp(SDL_CreateWindow("Window", 100, 100, 800, 600, SDL_WINDOW_RESIZABLE));
+ SDL_Window *window = scp(SDL_CreateWindow("Window", 100, 100, DISPLAY_WIDTH, DISPLAY_HEIGHT, SDL_WINDOW_RESIZABLE));
  SDL_Renderer *renderer = scp(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED));
 
  // Create main character struct
- Character hero = CreateHero();
+ Sint32 hero_x = DISPLAY_WIDTH/2 - AGENT_WIDTH/2;
+ Sint32 hero_y = DISPLAY_HEIGHT/2 - AGENT_WIDTH/2;
+ Agent hero = create_agent(hero_x, hero_y);
 
  Uint8 quit = 0;
  SDL_Event event = {0};
@@ -40,7 +43,7 @@ int main(int argc, char *argv[])
      }
      break;
 
-    // X click
+    // X button click
     case SDL_QUIT:
      quit = 1;
      break;
@@ -56,8 +59,8 @@ int main(int argc, char *argv[])
 
   // Update hero
   scc(SDL_SetRenderDrawColor(renderer, 120, 220, 240, 0));
-  MoveCharacter(&hero, kb[SDL_SCANCODE_D] + -kb[SDL_SCANCODE_A]);
-  update_character(&hero);
+  move_agent(&hero, kb[SDL_SCANCODE_D] + -kb[SDL_SCANCODE_A]);
+  update_agent(&hero);
   scc(SDL_RenderFillRect(renderer, &hero.rect));
 
   // Render scene
