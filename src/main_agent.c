@@ -1,15 +1,15 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include <agent.h>
-#include <vectors.h>
-#include <platform.h>
+#include <main_vectors.h>
+#include <main_agent.h>
+#include <main_platform.h>
 
 // Returns new agent
-Agent create_agent(Sint32 x, Sint32 y)
+Agent create_agent(float x, float y)
 {
  return (Agent) {
-  .rect = {x, y, AGENT_WIDTH, AGENT_HEIGHT},
+  .rect = {(int)x, (int)y, AGENT_WIDTH, AGENT_HEIGHT},
   // .color = {120, 220, 240, 0},
   .speed = CreateVector2(0, 0),
   .acceleration = CreateVector2(0, 0),

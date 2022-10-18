@@ -1,10 +1,10 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include <base.h>
-#include <vectors.h>
-#include <agent.h>
-#include <platform.h>
+#include <main_base.h>
+#include <main_vectors.h>
+#include <main_agent.h>
+#include <main_platform.h>
 
 
 int main(int argc, char *argv[])
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
   const Uint8 *kb = SDL_GetKeyboardState(NULL);
 
   // Draw background
-  scc(SDL_SetRenderDrawColor(renderer, 3, 3, 3, 0));
+  scc(SDL_SetRenderDrawColor(renderer, 30, 30, 30, 0));
   scc(SDL_RenderClear(renderer));
 
   // Update hero

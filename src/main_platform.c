@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include <platform.h>
+#include <main_platform.h>
 
 // Returns new platform
 Platform create_platform(Uint32 x, Uint32 y, Uint32 w, Uint32 h)

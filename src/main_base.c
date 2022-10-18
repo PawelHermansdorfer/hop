@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include <base.h>
+#include <main_base.h>
 
 // SDL secured call
 void scc(int error_code) {
