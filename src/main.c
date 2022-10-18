@@ -4,6 +4,7 @@
 #include <base.h>
 #include <vectors.h>
 #include <agent.h>
+#include <platform.h>
 
 
 int main(int argc, char *argv[])
@@ -18,6 +19,11 @@ int main(int argc, char *argv[])
  Sint32 hero_x = DISPLAY_WIDTH/2 - AGENT_WIDTH/2;
  Sint32 hero_y = DISPLAY_HEIGHT/2 - AGENT_WIDTH/2;
  Agent hero = create_agent(hero_x, hero_y);
+
+ // Create ground
+ Sint32 ground_x = 0;
+ Sint32 ground_y = DISPLAY_HEIGHT - 20;
+ Platform ground = create_platform(ground_x, ground_y, DISPLAY_WIDTH, 20);
 
  Uint8 quit = 0;
  SDL_Event event = {0};
@@ -59,9 +65,12 @@ int main(int argc, char *argv[])
 
   // Update hero
   scc(SDL_SetRenderDrawColor(renderer, 120, 220, 240, 0));
-  move_agent(&hero, kb[SDL_SCANCODE_D] + -kb[SDL_SCANCODE_A]);
-  update_agent(&hero);
+  agent_move(&hero, kb[SDL_SCANCODE_D] + -kb[SDL_SCANCODE_A]);
+  agent_update(&hero);
   scc(SDL_RenderFillRect(renderer, &hero.rect));
+
+  // Update ground
+  scc(SDL_RenderFillRect(renderer, &ground.rect));
 
   // Render scene
   SDL_RenderPresent(renderer);
@@ -70,6 +79,7 @@ int main(int argc, char *argv[])
   // Get time of end of the frame
   Uint64 end_time = SDL_GetPerformanceCounter();
 
+// TODO(Aa_Pawelek): MAKE FRAME_RATE macro, 1/FPS * 100 instead of 16.6...f
   // Capping frame rate
   float elapsedMS = (end_time - start_time) / (float)SDL_GetPerformanceFrequency() * 100.0f;
   if (elapsedMS < 16.666666f)
