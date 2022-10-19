@@ -1,11 +1,6 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
-#define PLATFORM_COLOR_RED 255
-#define PLATFORM_COLOR_GREEN 255
-#define PLATFORM_COLOR_BLUE 255
-#define PLATFORM_COLOR_ALPHA 255
-
 typedef struct
 {
  SDL_Rect rect;
@@ -13,6 +8,7 @@ typedef struct
 }
 Platform;
 
-Platform create_platform(Uint32 x, Uint32 y, Uint32 w, Uint32 h);
+Platform create_platform(Sint32 x, Sint32 y, Sint32 w, Sint32 h, SDL_Color color);
+void platform_render(Platform *platform, SDL_Renderer *renderer);
 
 #endif // PLATFORM_H

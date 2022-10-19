@@ -3,8 +3,8 @@
 
 #include <main_base.h>
 #include <main_vectors.h>
-#include <main_agent.h>
 #include <main_platform.h>
+#include <main_agent.h>
 
 
 int main(int argc, char *argv[])
@@ -18,12 +18,24 @@ int main(int argc, char *argv[])
  // Create main character struct
  Sint32 hero_x = DISPLAY_WIDTH/2 - AGENT_WIDTH/2;
  Sint32 hero_y = DISPLAY_HEIGHT/2 - AGENT_WIDTH/2;
- Agent hero = create_agent(hero_x, hero_y);
+ SDL_Color hero_color = {
+  HERO_COLOR_RED,
+  HERO_COLOR_GREEN,
+  HERO_COLOR_BLUE,
+  HERO_COLOR_ALPHA,
+ };
+ Agent hero = create_agent(hero_x, hero_y, HERO_WIDTH, HERO_HEIGHT, hero_color);
 
  // Create ground
+ SDL_Color ground_color = {
+ GROUND_COLOR_RED,
+ GROUND_COLOR_GREEN,
+ GROUND_COLOR_BLUE,
+ GROUND_COLOR_ALPHA,
+ };
  Sint32 ground_x = 0;
- Sint32 ground_y = DISPLAY_HEIGHT - 20;
- Platform ground = create_platform(ground_x, ground_y, DISPLAY_WIDTH, 20);
+ Sint32 ground_y = DISPLAY_HEIGHT - GROUND_WIDTH;
+ Platform ground = create_platform(ground_x, ground_y, DISPLAY_WIDTH, GROUND_WIDTH, ground_color);
 
  Uint8 quit = 0;
  SDL_Event event = {0};
@@ -60,17 +72,27 @@ int main(int argc, char *argv[])
   const Uint8 *kb = SDL_GetKeyboardState(NULL);
 
   // Draw background
-  scc(SDL_SetRenderDrawColor(renderer, 30, 30, 30, 0));
+  scc(SDL_SetRenderDrawColor(
+   renderer,
+   BG_COLOR_RED,
+   BG_COLOR_GREEN,
+   BG_COLOR_BLUE,
+   BG_COLOR_ALPHA
+   ));
   scc(SDL_RenderClear(renderer));
 
   // Update hero
-  scc(SDL_SetRenderDrawColor(renderer, 120, 220, 240, 0));
   agent_move(&hero, kb[SDL_SCANCODE_D] + -kb[SDL_SCANCODE_A]);
   agent_update(&hero);
-  scc(SDL_RenderFillRect(renderer, &hero.rect));
+  agent_collide_platform(&hero, &ground);
+  if (kb[SDL_SCANCODE_SPACE])
+  {
+   agent_jump(&hero);
+  }
+  agent_render(&hero, renderer);
 
   // Update ground
-  scc(SDL_RenderFillRect(renderer, &ground.rect));
+  platform_render(&ground, renderer);
 
   // Render scene
   SDL_RenderPresent(renderer);
