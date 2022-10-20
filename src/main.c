@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
  };
  Sint32 ground_x = 0;
  Sint32 ground_y = DISPLAY_HEIGHT - GROUND_WIDTH;
+ // NOTE: Make ground smaller for debug
  Platform ground = create_platform(ground_x, ground_y, DISPLAY_WIDTH, GROUND_WIDTH, ground_color);
 
  Uint8 quit = 0;

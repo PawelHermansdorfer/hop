@@ -58,7 +58,6 @@ void agent_update(Agent *agent)
  }
 
  // set agent position
- printf("%f\n", agent->velocity.x);
  agent->rect.x += round(agent->velocity.x);
  agent->rect.y += round(agent->velocity.y);
 
