@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "agents.h": "c",
-        "agent.h": "c",
-        "vectors.h": "c"
-    }
-}

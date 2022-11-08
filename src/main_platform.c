@@ -3,12 +3,24 @@
 #include <main_platform.h>
 
 // Returns new platform
-Platform create_platform(Sint32 x, Sint32 y, Sint32 w, Sint32 h, SDL_Color color)
+Platform create_platform(Sint32 x, Sint32 y, Sint32 w)
 {
  return (Platform)
  {
-  .rect = {x, y, w, h},
-  .color = { color.r, color.g, color.b, color.a },
+  .rect = {x, y, w, PLATFORM_HEIGHT},
+  .color = { PLATFORM_COLOR_RED, PLATFORM_COLOR_GREEN, PLATFORM_COLOR_BLUE, PLATFORM_COLOR_ALPHA },
+  .type = PLATFORM_TYPE_GROUND
+ };
+}
+
+// Creates lava at the bottom of the screen
+Platform create_lava(void)
+{
+ return (Platform)
+ {
+  .rect = {LAVA_POS_X, LAVA_POS_Y, LAVA_WIDTH, LAVA_HEIGHT},
+  .color = {LAVA_COLOR_RED, LAVA_COLOR_GREEN, LAVA_COLOR_BLUE, LAVA_COLOR_ALPHA},
+  .type = PLATFORM_TYPE_LAVA
  };
 }
 
