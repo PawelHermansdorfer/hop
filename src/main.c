@@ -5,7 +5,9 @@
 #include <main_base.h>
 #include <main_vectors.h>
 #include <main_platform.h>
+#include <main_fire.h>
 #include <main_agent.h>
+
 
 
 int main(int argc, char *argv[])
@@ -15,13 +17,19 @@ int main(int argc, char *argv[])
 
  SDL_Window *window = scp(SDL_CreateWindow("Window", 100, 100, DISPLAY_WIDTH, DISPLAY_HEIGHT, SDL_WINDOW_RESIZABLE));
  SDL_Renderer *renderer = scp(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED));
+ scc(SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND));
 
  // Create main character struct
- Agent hero = create_agent(DISPLAY_WIDTH/2 - AGENT_WIDTH/2, DISPLAY_HEIGHT/1.4 - AGENT_WIDTH/2);
+ Agent hero = create_agent(DISPLAY_WIDTH/2 - AGENT_WIDTH/2, DISPLAY_HEIGHT/2 - AGENT_WIDTH/2);
+
+ // Create fire
+ Fire fire = create_fire();
 
  // Create ground
- Platform platforms[NUMBER_OF_PLATFORMS] = {create_platform(0, 200, 500), create_platform(DISPLAY_WIDTH-300, 520, 300)};
- Platform lava = create_lava();
+ Platform platforms[NUMBER_OF_PLATFORMS] = {create_platform(0, 450, 400),
+                                            create_platform(DISPLAY_WIDTH-400, 600, 400),
+                                            create_platform(200, 300, DISPLAY_WIDTH-400),
+                                            };
 
  Uint8 quit = 0;
  SDL_Event event = {0};
@@ -80,14 +88,16 @@ int main(int argc, char *argv[])
   {
    agent_collide_platform(&hero, &platforms[i]);
   }
-  agent_collide_platform(&hero, &lava);
   // Update ground
   for (int i = 0; i < NUMBER_OF_PLATFORMS; i++)
   {
    platform_render(&platforms[i], renderer);
   }
-  platform_render(&lava, renderer);
   agent_render(&hero, renderer);
+
+  // Update and draw fire
+  fire_draw(&fire, renderer);
+  fire_update(&fire);
 
 
   // Render scene

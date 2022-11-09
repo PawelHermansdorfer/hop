@@ -19,3 +19,7 @@ void *scp(void *ptr) {
  return ptr;
 }
 
+int map(int value, int A, int B, int a, int b)
+{
+ return (value - A) * (b - a) / (B - A) + a;
+}
