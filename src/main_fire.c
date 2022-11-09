@@ -10,7 +10,7 @@ const int fire_palette[FIRE_PALETTE_SIZE][4] = {{0, 0, 0, 255}, {14, 0, 0, 255},
 
 Fire create_fire(void)
 {
- Fire fire = {.fire_partices = {{}}};
+ Fire fire = {.fire_partices = {{0}}};
 
  for (int i = i; i < FIRE_N_ROWS; i++) // First collumn always must be white
  {
