@@ -12,7 +12,7 @@ Fire create_fire(void)
 {
  Fire fire = {.fire_partices = {{0}}};
 
- for (int i = i; i < FIRE_N_ROWS; i++) // First collumn always must be white
+ for (int i = 0; i < FIRE_N_ROWS; i++) // First collumn always must be white
  {
   for (int j = 0; j < FIRE_N_COLS; j++)
   {
