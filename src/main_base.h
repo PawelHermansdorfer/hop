@@ -4,7 +4,7 @@
 #define DISPLAY_WIDTH 550
 #define DISPLAY_HEIGHT 900
 
-#define NUMBER_OF_PLATFORMS 3
+#define NUMBER_OF_PLATFORMS 5
 
 // Background color
 #define BG_COLOR_RED 30
@@ -26,6 +26,10 @@
 #define AGENT_COLOR_ALPHA 255
 #define AGENT_WIDTH 50
 #define AGENT_HEIGHT 50
+
+// Game states
+#define STATE_INPUT_AWAIT 0
+#define STATE_RUNNING 1
 
 void scc(int error_code);
 void *scp(void *ptr);

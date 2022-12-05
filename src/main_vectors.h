@@ -1,12 +1,9 @@
 #ifndef VECTORS_H
 #define VECTORS_H
 
-
-typedef struct
-{
- float x, y;
-}
-Vector2;
+typedef struct {
+  float x, y;
+} Vector2;
 
 Vector2 CreateVector2(float x, float y);
 double Vector2GetMagnitude(Vector2 vec);

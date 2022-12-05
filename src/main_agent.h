@@ -1,7 +1,6 @@
 #ifndef AGENT_H
 #define AGENT_H
 
-
 // States
 #define AGENT_STATE_ALIVE 0
 #define AGENT_STATE_DEAD 1
@@ -19,22 +18,20 @@
 #define AGENT_GRAVITY_FORCE 4
 #define AGENT_JUMP_FORCE 50
 
-typedef struct
-{
- SDL_Rect rect;
- Vector2 prev_pos;
- SDL_Color color;
- Uint8 state;
- Vector2 velocity;
- Vector2 acceleration;
- float movement_acceleration;
- float max_speed;
- float drag_force;
- Uint8 grounded;
-}
-Agent;
+typedef struct {
+  SDL_Rect rect;
+  Vector2 prev_pos;
+  SDL_Color color;
+  Uint8 state;
+  Vector2 velocity;
+  Vector2 acceleration;
+  float movement_acceleration;
+  float max_speed;
+  float drag_force;
+  Uint8 grounded;
+} Agent;
 
-Agent create_agent(float x, float y);
+Agent create_agent(int x, int y);
 void agent_render(Agent *agent, SDL_Renderer *renderer);
 void agent_move(Agent *agent, Sint8 direction);
 void agent_update(Agent *agent);
