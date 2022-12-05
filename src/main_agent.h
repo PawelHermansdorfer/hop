@@ -39,5 +39,6 @@ void agent_collide_platform(Agent *agent, Platform *platform);
 void agent_collide_border(Agent *agent);
 void agent_apply_gravity(Agent *agent);
 void agent_jump(Agent *agent);
+void agent_die(Agent *agent);
 
 #endif // AGENT_H

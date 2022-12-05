@@ -9,6 +9,16 @@
 
 #include <main_agent.h>
 
+void reset_scene(Platform platforms[NUMBER_OF_PLATFORMS], Agent *hero) {
+  platforms[0] = create_platform(DISPLAY_WIDTH / 2 - 150, -350, 300);
+  platforms[1] = create_platform(DISPLAY_WIDTH / 2 - 200, -100, 400);
+  platforms[2] = create_platform(DISPLAY_WIDTH - 400, 150, 400);
+  platforms[3] = create_platform(0, 400, 300);
+  platforms[4] = create_platform(0, 650, DISPLAY_WIDTH);
+
+  *hero = create_agent(DISPLAY_WIDTH / 2 - AGENT_WIDTH / 2, 650 - AGENT_HEIGHT);
+}
+
 int main(int argc, char *argv[]) {
   // Init SDL2
   scc(SDL_Init(SDL_INIT_VIDEO));
@@ -32,7 +42,7 @@ int main(int argc, char *argv[]) {
       create_platform(DISPLAY_WIDTH / 2 - 200, -100, 400),
       create_platform(DISPLAY_WIDTH - 400, 150, 400),
       create_platform(0, 400, 300),
-      create_platform(0, 650, 550),
+      create_platform(0, 650, DISPLAY_WIDTH),
   };
   PlatformHandler platform_handler = create_platform_handler();
 
@@ -42,10 +52,12 @@ int main(int argc, char *argv[]) {
   Uint8 quit = 0;
   SDL_Event event = {0};
 
+  Uint16 desired_frame_delta = 1000.0 / FPS;
+
   // Main game loop
   while (!quit) {
     // Time of beginning of the frame
-    Uint64 start_time = SDL_GetPerformanceCounter();
+    Uint32 frame_start_time = SDL_GetTicks();
 
     // Handle events
     while (SDL_PollEvent(&event)) {
@@ -78,7 +90,7 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    if (game_state == STATE_RUNNING) {
+    else if (game_state == STATE_RUNNING) {
       // Update hero
       agent_move(&hero, kb[SDL_SCANCODE_D] + -kb[SDL_SCANCODE_A]);
       if (kb[SDL_SCANCODE_SPACE]) {
@@ -86,6 +98,10 @@ int main(int argc, char *argv[]) {
       }
       agent_update(&hero);
       agent_collide_border(&hero);
+      if (hero.rect.y > DISPLAY_HEIGHT) {
+        game_state = STATE_DEATH_ANIMATION;
+        agent_die(&hero);
+      }
 
       // Update platforms
       for (int i = 0; i < NUMBER_OF_PLATFORMS; i++) {
@@ -99,6 +115,14 @@ int main(int argc, char *argv[]) {
         platform_update(&platforms[i]);
 
         agent_collide_platform(&hero, &platforms[i]);
+      }
+    }
+
+    else if (game_state == STATE_DEATH_ANIMATION) {
+      agent_update(&hero);
+      if (hero.rect.y > DISPLAY_HEIGHT + 500) {
+        game_state = STATE_INPUT_AWAIT;
+        reset_scene(platforms, &hero);
       }
     }
 
@@ -117,13 +141,10 @@ int main(int argc, char *argv[]) {
     // Render scene
     SDL_RenderPresent(renderer);
 
-    // Get time of end of the frame
-    Uint64 end_time = SDL_GetPerformanceCounter();
-    // Capping frame rate
-    float elapsedMS =
-        (end_time - start_time) / (float)SDL_GetPerformanceFrequency() * 100.0f;
-    if (elapsedMS < 16.666666f) {
-      SDL_Delay(floor(16.666666f - elapsedMS));
+    // Cap frame rate
+    Uint32 frame_time_delta = SDL_GetTicks() - frame_start_time;
+    if (frame_time_delta < desired_frame_delta) {
+      SDL_Delay(desired_frame_delta - frame_time_delta);
     }
   }
 

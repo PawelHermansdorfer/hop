@@ -137,6 +137,13 @@ void agent_move(Agent *agent, Sint8 direction) {
 void agent_jump(Agent *agent) {
   if (agent->grounded == AGENT_GROUNDED) {
     agent->acceleration.y -= AGENT_JUMP_FORCE;
+    agent->velocity.y = 0;
     agent->grounded = AGENT_NOT_GROUNDED;
   }
+}
+
+// Death animation
+void agent_die(Agent *agent) {
+  agent->acceleration.y -= AGENT_JUMP_FORCE * 1.5;
+  agent->velocity.y = 0;
 }

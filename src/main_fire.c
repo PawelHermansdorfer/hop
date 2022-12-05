@@ -35,18 +35,22 @@ Fire create_fire(void) {
 void fire_draw(Fire *fire, SDL_Renderer *renderer) {
   int particle_offset = DISPLAY_HEIGHT - (FIRE_N_ROWS * FIRE_PARTICLE_SIZE);
 
-  for (int i = 0; i < FIRE_N_ROWS; i++) {
-    for (int j = 0; j < FIRE_N_COLS; j++) {
-      int color_index = fire->fire_partices[i][j];
-      if (color_index != 0) {
-        scc(SDL_SetRenderDrawColor(renderer, fire_palette[color_index][0],
-                                   fire_palette[color_index][1],
-                                   fire_palette[color_index][2],
-                                   fire_palette[color_index][3]));
-        SDL_Rect rect = {j * FIRE_PARTICLE_SIZE,
-                         particle_offset + i * FIRE_PARTICLE_SIZE,
-                         FIRE_PARTICLE_SIZE, FIRE_PARTICLE_SIZE};
-        scc(SDL_RenderFillRect(renderer, &rect));
+  for (int section_index = 0; section_index < N_FIRE_SECTIONS;
+       section_index++) {
+    Uint16 section_x = section_index * FIRE_PARTICLE_SIZE * FIRE_N_COLS;
+    for (int i = 0; i < FIRE_N_ROWS; i++) {
+      for (int j = 0; j < FIRE_N_COLS; j++) {
+        int color_index = fire->fire_partices[i][j];
+        if (color_index != 0) {
+          scc(SDL_SetRenderDrawColor(renderer, fire_palette[color_index][0],
+                                     fire_palette[color_index][1],
+                                     fire_palette[color_index][2],
+                                     fire_palette[color_index][3]));
+          SDL_Rect rect = {section_x + (j * FIRE_PARTICLE_SIZE),
+                           particle_offset + i * FIRE_PARTICLE_SIZE,
+                           FIRE_PARTICLE_SIZE, FIRE_PARTICLE_SIZE};
+          scc(SDL_RenderFillRect(renderer, &rect));
+        }
       }
     }
   }

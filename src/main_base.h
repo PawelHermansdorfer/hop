@@ -1,8 +1,10 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-#define DISPLAY_WIDTH 550
+#define DISPLAY_WIDTH 560
 #define DISPLAY_HEIGHT 900
+
+#define FPS 60
 
 #define NUMBER_OF_PLATFORMS 5
 
@@ -30,6 +32,7 @@
 // Game states
 #define STATE_INPUT_AWAIT 0
 #define STATE_RUNNING 1
+#define STATE_DEATH_ANIMATION 2
 
 void scc(int error_code);
 void *scp(void *ptr);
