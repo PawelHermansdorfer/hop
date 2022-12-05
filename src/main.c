@@ -1,6 +1,9 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
+#include <SDL2_ttf/SDL_ttf.h>
 #include <math.h>
 #include <stdio.h>
+
+#include <main_text.h>
 
 #include <main_base.h>
 #include <main_fire.h>
@@ -22,6 +25,7 @@ void reset_scene(Platform platforms[NUMBER_OF_PLATFORMS], Agent *hero) {
 int main(int argc, char *argv[]) {
   // Init SDL2
   scc(SDL_Init(SDL_INIT_VIDEO));
+  scc(TTF_Init());
 
   SDL_Window *window = scp(SDL_CreateWindow(
       "Window", 100, 100, DISPLAY_WIDTH, DISPLAY_HEIGHT, SDL_WINDOW_RESIZABLE));
@@ -47,7 +51,9 @@ int main(int argc, char *argv[]) {
   PlatformHandler platform_handler = create_platform_handler();
 
   Uint8 game_state = STATE_INPUT_AWAIT;
+
   Uint16 score = 0;
+  Text score_text = create_text(0, 0, "NDUAWBDWYUIOA", (SDL_Color){255, 255, 255, 255}, 48, renderer);
 
   Uint8 quit = 0;
   SDL_Event event = {0};
@@ -138,6 +144,9 @@ int main(int argc, char *argv[]) {
     fire_draw(&fire, renderer);
     fire_update(&fire);
 
+    // Render score
+    render_text(&score_text, renderer);
+
     // Render scene
     SDL_RenderPresent(renderer);
 
@@ -148,6 +157,7 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  free_text(&score_text);
   SDL_Quit();
   return 0;
 }

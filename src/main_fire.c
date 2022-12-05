@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <main_base.h>
 #include <main_fire.h>
 #include <main_vectors.h>

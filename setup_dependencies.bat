@@ -10,8 +10,13 @@ tar -xf SDL2_ttf-devel-2.20.1-VC.zip
 if not exist dependencies\ mkdir dependencies\
 
 move SDL2-2.24.0 dependencies\SDL2
-
 del SDL2-devel-2.24.0-VC.zip 
 if not exist dependencies\SDL2\temp\ mkdir dependencies\SDL2\temp\
 move dependencies\SDL2\include dependencies\SDL2\temp\SDL2
 move dependencies\SDL2\temp dependencies\SDL2\include
+
+move SDL2_ttf-2.20.1 dependencies\SDL2_ttf
+del SDL2_ttf-devel-2.20.1-VC.zip 
+if not exist dependencies\SDL2_ttf\temp\ mkdir dependencies\SDL2_ttf\temp\
+move dependencies\SDL2_ttf\include dependencies\SDL2_ttf\temp\SDL2_ttf
+move dependencies\SDL2_ttf\temp dependencies\SDL2_ttf\include

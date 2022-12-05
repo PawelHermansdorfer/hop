@@ -6,25 +6,32 @@ reg Query "HKLM\Hardware\Description\System\CentralProcessor\0" | find /i "x86" 
 if %OS%==32BIT (
     echo Working on 32bit operating system
     set SDL2_LIB_DIR="\dependencies\SDL2\lib\x86"
+    set SDL2_ttf_LIB_DIR="\dependencies\SDL2_ttf\lib\x86"
 )
 if %OS%==64BIT (
     echo Working on 64bit operating system
     set SDL2_LIB_DIR="\dependencies\SDL2\lib\x64"
+    set SDL2_ttf_LIB_DIR="\dependencies\SDL2_ttf\lib\x64"
 )
 
 
 SET CFLAGS=/W4 /WX /std:c11 /wd4996 /wd5105 /FC /TC /Zi /nologo
 
-SET INCLUDES=/I ..\dependencies\SDL2\include ^
+SET INCLUDES=/I ..\dependencies\SDL2\include\SDL2 ^
+             /I ..\dependencies\SDL2_ttf\include\SDL2_ttf ^
              /I ..\src\
 
 SET LIBS=..\%SDL2_LIB_DIR%\SDL2.lib ^
          ..\%SDL2_LIB_DIR%\SDL2main.lib ^
+         ..\%SDL2_ttf_LIB_DIR%\SDL2_ttf.lib ^
          opengl32.lib User32.lib Gdi32.lib shell32.lib
 
 IF NOT EXIST .\build\ MKDIR .\build\
 IF NOT EXIST .\build\SDL2.dll (
     COPY .\%SDL2_LIB_DIR%\SDL2.dll .\build\
+)
+IF NOT EXIST .\build\SDL2_ttf.dll (
+    COPY .\%SDL2_ttf_LIB_DIR%\SDL2_ttf.dll .\build\
 )
 
 PUSHD .\build

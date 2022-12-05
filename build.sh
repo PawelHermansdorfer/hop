@@ -4,7 +4,7 @@ PROJECT_NAME=main
 PROJECT_FILES="../src/*.c"
 PROJECT_INCLUDES="../src/"
 FLAGS="-Wall -Wextra -std=c11 -pedantic -ggdb"
-LIBS='sdl2 glew'
+LIBS='sdl2 sdl2_ttf glew'
 
 if [ ! -d ./build ]; then
     mkdir ./build
