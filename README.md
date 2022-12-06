@@ -1,6 +1,6 @@
 <p align="left">
-<img src="./images/img.png" width="200" />
-<img src="./images/gif.gif" width="200" />
+<!-- <img src="./images/img.png" width="200" /> -->
+<img src="./images/gif.gif" width="350" />
 </p>
 
 
