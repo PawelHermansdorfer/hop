@@ -1,6 +1,4 @@
 #include <SDL.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include <main_base.h>
 #include <main_platform.h>

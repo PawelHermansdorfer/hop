@@ -26,6 +26,9 @@ ELSE()
 ENDIF()
 MESSAGE(STATUS "Compiler: ${COMPILER}")
 
+# Copy fonts dir
+FILE(COPY ${PROJECT_SOURCE_DIR}/fonts  DESTINATION ${PROJECT_SOURCE_DIR}/build/)
+
 # Add project files
 FILE(GLOB PROJECT_FILES ${PROJECT_SOURCE_DIR}/src/*.c)
 

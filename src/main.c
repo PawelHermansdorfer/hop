@@ -3,14 +3,12 @@
 #include <math.h>
 #include <stdio.h>
 
-#include <main_text.h>
-
+#include <main_agent.h>
 #include <main_base.h>
 #include <main_fire.h>
 #include <main_platform.h>
+#include <main_text.h>
 #include <main_vectors.h>
-
-#include <main_agent.h>
 
 void reset_scene(Platform platforms[NUMBER_OF_PLATFORMS], Agent *hero) {
   platforms[0] = create_platform(DISPLAY_WIDTH / 2 - 150, -350, 300);
@@ -53,7 +51,28 @@ int main(int argc, char *argv[]) {
   Uint8 game_state = STATE_INPUT_AWAIT;
 
   Uint16 score = 0;
-  Text score_text = create_text(0, 0, "NDUAWBDWYUIOA", (SDL_Color){255, 255, 255, 255}, 48, renderer);
+  char score_str[64];
+  sprintf_s(score_str, 64, "score: %d", score);
+
+  Uint16 best_score = 0;
+  char best_score_str[64];
+  sprintf_s(best_score_str, 64, "best score: %d", best_score);
+
+  Uint16 current_score = 0;
+  char current_score_str[64];
+  sprintf_s(current_score_str, 64, "%d", current_score);
+
+  Text score_text = create_text(-1, 65, score_str,
+                                (SDL_Color){255, 255, 255, 255}, 64, renderer);
+
+  Text best_score_text = create_text(
+      -1, 120, best_score_str, (SDL_Color){255, 255, 255, 255}, 32, renderer);
+
+  Text press_space_text = create_text(
+      -1, DISPLAY_HEIGHT-200, "press space to start", (SDL_Color){255, 255, 255, 255}, 42, renderer);
+
+  Text  current_score_text = create_text(
+      -1, DISPLAY_HEIGHT/6, current_score_str, (SDL_Color){255, 255, 255, 255}, 96, renderer);
 
   Uint8 quit = 0;
   SDL_Event event = {0};
@@ -90,13 +109,33 @@ int main(int argc, char *argv[]) {
                                BG_COLOR_GREEN, BG_COLOR_ALPHA));
     scc(SDL_RenderClear(renderer));
 
+    // Redner platforms
+    for (int i = 0; i < NUMBER_OF_PLATFORMS; i++) {
+      platform_render(&platforms[i], renderer);
+    }
+
+    // Redner agents
+    agent_render(&hero, renderer);
+
+    // Update and draw fire
+    fire_draw(&fire, renderer);
+    fire_update(&fire);
+
     if (game_state == STATE_INPUT_AWAIT) {
+      // Render score
+      render_text(&score_text, renderer);
+      render_text(&best_score_text, renderer);
+      render_text(&press_space_text, renderer);
+
       if (kb[SDL_SCANCODE_SPACE]) {
         game_state = STATE_RUNNING;
       }
     }
 
-    else if (game_state == STATE_RUNNING) {
+    if (game_state == STATE_RUNNING) {
+      // Render score
+      render_text(&current_score_text, renderer);
+
       // Update hero
       agent_move(&hero, kb[SDL_SCANCODE_D] + -kb[SDL_SCANCODE_A]);
       if (kb[SDL_SCANCODE_SPACE]) {
@@ -116,6 +155,8 @@ int main(int argc, char *argv[]) {
 
           // Add 1 to score
           score += 1;
+          sprintf_s(current_score_str, 64, "%d", score);
+          update_text(&current_score_text, current_score_str, renderer);
         }
 
         platform_update(&platforms[i]);
@@ -124,28 +165,28 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    else if (game_state == STATE_DEATH_ANIMATION) {
+    if (game_state == STATE_DEATH_ANIMATION) {
+      // Render score
+      render_text(&current_score_text, renderer);
+
       agent_update(&hero);
       if (hero.rect.y > DISPLAY_HEIGHT + 500) {
         game_state = STATE_INPUT_AWAIT;
         reset_scene(platforms, &hero);
+
+
+        sprintf_s(score_str, 64, "Score: %d", score);
+        update_text(&score_text, score_str, renderer);
+        if (score > best_score) {
+          best_score = score;
+        sprintf_s(best_score_str, 64, "best score: %d", best_score);
+        update_text(&best_score_text, best_score_str, renderer);
+        }
+
+        score = 0;
+        current_score = 0;
       }
     }
-
-    // Redner platforms
-    for (int i = 0; i < NUMBER_OF_PLATFORMS; i++) {
-      platform_render(&platforms[i], renderer);
-    }
-
-    // Redner agents
-    agent_render(&hero, renderer);
-
-    // Update and draw fire
-    fire_draw(&fire, renderer);
-    fire_update(&fire);
-
-    // Render score
-    render_text(&score_text, renderer);
 
     // Render scene
     SDL_RenderPresent(renderer);

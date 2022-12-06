@@ -18,7 +18,7 @@ if %OS%==64BIT (
 SET CFLAGS=/W4 /WX /std:c11 /wd4996 /wd5105 /FC /TC /Zi /nologo
 
 SET INCLUDES=/I ..\dependencies\SDL2\include\SDL2 ^
-             /I ..\dependencies\SDL2_ttf\include\SDL2_ttf ^
+             /I ..\dependencies\SDL2_ttf\include\^
              /I ..\src\
 
 SET LIBS=..\%SDL2_LIB_DIR%\SDL2.lib ^
@@ -27,12 +27,17 @@ SET LIBS=..\%SDL2_LIB_DIR%\SDL2.lib ^
          opengl32.lib User32.lib Gdi32.lib shell32.lib
 
 IF NOT EXIST .\build\ MKDIR .\build\
+IF NOT EXIST .\build\fonts\ MKDIR .\build\fonts\
+
 IF NOT EXIST .\build\SDL2.dll (
     COPY .\%SDL2_LIB_DIR%\SDL2.dll .\build\
 )
 IF NOT EXIST .\build\SDL2_ttf.dll (
     COPY .\%SDL2_ttf_LIB_DIR%\SDL2_ttf.dll .\build\
 )
+
+COPY .\fonts\* .\build\fonts\
+
 
 PUSHD .\build
 

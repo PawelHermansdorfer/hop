@@ -1,6 +1,10 @@
 #ifndef AGENT_H
 #define AGENT_H
 
+#include <SDL.h>
+#include <main_platform.h>
+#include <main_vectors.h>
+
 // States
 #define AGENT_STATE_ALIVE 0
 #define AGENT_STATE_DEAD 1

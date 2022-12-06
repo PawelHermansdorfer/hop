@@ -1,6 +1,8 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
+#include <SDL.h>
+
 #define PLATFORM_INIT_SPEED 5
 #define PLATFORM_MINIMAL_SIZE 100
 

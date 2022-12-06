@@ -2,11 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <main_agent.h>
 #include <main_base.h>
 #include <main_platform.h>
 #include <main_vectors.h>
-
-#include <main_agent.h>
 
 // Returns new agent
 Agent create_agent(int x, int y) {

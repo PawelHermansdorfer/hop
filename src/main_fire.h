@@ -1,6 +1,9 @@
 #ifndef FIRE_H
 #define FIRE_H
 
+#include <SDL.h>
+#include <main_base.h>
+
 // #define FIRE_DENSITY 10
 #define FIRE_PARTICLE_SIZE 4
 #define FIRE_PALETTE_SIZE 17
