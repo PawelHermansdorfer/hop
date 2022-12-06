@@ -1,8 +1,6 @@
-<p align="middle">
-<!-- ![game_screenshot](./images/img.png) -->
-<!-- ![game_gif](./images/gif.gif) -->
-<img src="./images/img.png" width="100" />
-<img src="./images/gif.gif" width="100" />
+<p align="left">
+<img src="./images/img.png" width="200" />
+<img src="./images/gif.gif" width="200" />
 </p>
 
 
