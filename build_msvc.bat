@@ -42,10 +42,10 @@ COPY .\fonts\* .\build\fonts\
 PUSHD .\build
 
 SET mode=%1
-IF "%mode%" == "/release" (
+IF "%mode%" == "--release" (
     cl.exe %INCLUDES% /Femain ..\src\*.c /link %LIBS% -SUBSYSTEM:windows
 )
-IF "%mode%" == "/debug" (
+IF "%mode%" == "--debug" (
     cl.exe %INCLUDES% /Femain ..\src\*.c /link %LIBS% -SUBSYSTEM:console
 )
 IF "%mode%" == "" (

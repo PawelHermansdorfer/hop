@@ -76,3 +76,9 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
                       ${SDL2_LIBRARIES}
                       SDL2_ttf::SDL2_ttf
                       )
+
+# Setup release build on windows
+IF (release)
+    SET_PROPERTY(TARGET main PROPERTY WIN32_EXECUTABLE true)
+ENDIF()
+
