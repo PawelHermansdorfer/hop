@@ -20,6 +20,25 @@ void reset_scene(Platform platforms[NUMBER_OF_PLATFORMS], Agent *hero) {
   *hero = create_agent(DISPLAY_WIDTH / 2 - AGENT_WIDTH / 2, 650 - AGENT_HEIGHT);
 }
 
+int read_best_score(void) {
+  FILE *file;
+  int score = 0;
+  fopen_s(&file, "best_score.dat", "r");
+  if (file) {
+    fscanf_s(file, "%d", &score);
+    fclose(file);
+  }
+  return score;
+}
+
+void write_best_score(const char *score_str)
+{
+  FILE *file;
+  fopen_s(&file, "best_score.dat", "w");
+  fputs(score_str, file);
+  fclose(file);
+}
+
 int main(int argc, char *argv[]) {
   // Init SDL2
   scc(SDL_Init(SDL_INIT_VIDEO));
@@ -54,7 +73,8 @@ int main(int argc, char *argv[]) {
   char score_str[64];
   sprintf_s(score_str, 64, "score: %d", score);
 
-  Uint16 best_score = 0;
+  
+  Uint16 best_score = read_best_score();
   char best_score_str[64];
   sprintf_s(best_score_str, 64, "best score: %d", best_score);
 
@@ -197,8 +217,13 @@ int main(int argc, char *argv[]) {
       SDL_Delay(desired_frame_delta - frame_time_delta);
     }
   }
+  sprintf_s(best_score_str, 64, "%d", best_score);
+  write_best_score(best_score_str);
 
   free_text(&score_text);
+  free_text(&best_score_text);
+  free_text(&current_score_text);
+  free_text(&press_space_text);
   SDL_Quit();
   return 0;
 }
