@@ -32,7 +32,8 @@ $ ./build/main
 ```console
 > .\setup_dependencies.bat
 > .\build_msvc.bat --release
-> .\build\main.exe
+> cd .\build
+> .\main.exe
 ```
 
 ## Other
