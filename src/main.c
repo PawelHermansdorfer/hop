@@ -30,7 +30,7 @@ int read_best_score(void) {
   /* fopen_s(&file, "best_score.dat", "r"); */
   file = fopen("best_score.dat", "r");
   if (file) {
-    fscanf_s(file, "%d", &score);
+    fscanf(file, "%d", &score);
     fclose(file);
   }
   return score;
