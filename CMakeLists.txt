@@ -80,13 +80,15 @@ ELSE()
 ENDIF()
 
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS}/SDL2)
-MESSAGE(STATUS ${SDL2TTF_LIBRARIES})
+
+
 # Linking
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
                       ${OPENGL_LIBRARY}
                       ${SDL2_LIBRARIES}
                       SDL2_ttf::SDL2_ttf
                       )
+
 
 # Setup release build on windows
 IF (release)
