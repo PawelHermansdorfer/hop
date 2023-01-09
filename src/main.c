@@ -27,7 +27,8 @@ void reset_scene(Platform platforms[NUMBER_OF_PLATFORMS], Agent *hero) {
 int read_best_score(void) {
   FILE *file;
   int score = 0;
-  fopen_s(&file, "best_score.dat", "r");
+  /* fopen_s(&file, "best_score.dat", "r"); */
+  file = fopen("best_score.dat", "r");
   if (file) {
     fscanf_s(file, "%d", &score);
     fclose(file);
@@ -38,7 +39,8 @@ int read_best_score(void) {
 void write_best_score(const char *score_str)
 {
   FILE *file;
-  fopen_s(&file, "best_score.dat", "w");
+  /* fopen_s(&file, "best_score.dat", "w"); */
+  file = fopen("best_score.dat", "w");
   fputs(score_str, file);
   fclose(file);
 }
@@ -75,16 +77,17 @@ int main(int argc, char *argv[]) {
 
   Uint16 score = 0;
   char score_str[64];
-  sprintf_s(score_str, 64, "score: %d", score);
+  /* sprintf_s(score_str, 64, "score: %d", score); */
+  sprintf(score_str, "score: %d", score);
 
   
   Uint16 best_score = read_best_score();
   char best_score_str[64];
-  sprintf_s(best_score_str, 64, "best score: %d", best_score);
+  sprintf(best_score_str, "best score: %d", best_score);
 
   Uint16 current_score = 0;
   char current_score_str[64];
-  sprintf_s(current_score_str, 64, "%d", current_score);
+  sprintf(current_score_str, "%d", current_score);
 
   Text score_text = create_text(-1, 65, score_str,
                                 (SDL_Color){255, 255, 255, 255}, 64, renderer);
@@ -179,7 +182,7 @@ int main(int argc, char *argv[]) {
 
           // Add 1 to score
           score += 1;
-          sprintf_s(current_score_str, 64, "%d", score);
+          sprintf(current_score_str, "%d", score);
           update_text(&current_score_text, current_score_str, renderer);
         }
 
@@ -199,11 +202,11 @@ int main(int argc, char *argv[]) {
         reset_scene(platforms, &hero);
 
 
-        sprintf_s(score_str, 64, "Score: %d", score);
+        sprintf(score_str, "Score: %d", score);
         update_text(&score_text, score_str, renderer);
         if (score > best_score) {
           best_score = score;
-        sprintf_s(best_score_str, 64, "best score: %d", best_score);
+        sprintf(best_score_str, "best score: %d", best_score);
         update_text(&best_score_text, best_score_str, renderer);
         }
 
@@ -221,7 +224,7 @@ int main(int argc, char *argv[]) {
       SDL_Delay(desired_frame_delta - frame_time_delta);
     }
   }
-  sprintf_s(best_score_str, 64, "%d", best_score);
+  sprintf(best_score_str, "%d", best_score);
   write_best_score(best_score_str);
 
   free_text(&score_text);
