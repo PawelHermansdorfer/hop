@@ -43,13 +43,13 @@ PUSHD .\build
 
 SET mode=%1
 IF "%mode%" == "--release" (
-    cl.exe %INCLUDES% /Femain ..\src\*.c /link %LIBS% -SUBSYSTEM:windows
+    cl.exe /DWINDOWS=1 %INCLUDES% /Femain ..\src\*.c /link %LIBS% -SUBSYSTEM:windows
 )
 IF "%mode%" == "--debug" (
-    cl.exe %INCLUDES% /Femain ..\src\*.c /link %LIBS% -SUBSYSTEM:console
+    cl.exe /DWINDOWS=1 %INCLUDES% /Femain ..\src\*.c /link %LIBS% -SUBSYSTEM:console
 )
 IF "%mode%" == "" (
-    cl.exe %INCLUDES% /Femain ..\src\*.c /link %LIBS% -SUBSYSTEM:console
+    cl.exe  /DWINDOWS=1 %INCLUDES% /Femain ..\src\*.c /link %LIBS% -SUBSYSTEM:console
 )
 
 POPD

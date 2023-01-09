@@ -1,7 +1,11 @@
-#include <SDL.h>
-#include <SDL2_ttf/SDL_ttf.h>
 #include <math.h>
 #include <stdio.h>
+#include <SDL.h>
+#if WINDOWS
+#include <SDL2_ttf/SDL_ttf.h>
+#else
+#include <SDL_ttf.h>
+#endif
 
 #include <main_agent.h>
 #include <main_base.h>
