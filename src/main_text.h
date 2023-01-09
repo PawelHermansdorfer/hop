@@ -2,7 +2,11 @@
 #define TEXT_H
 
 #include <SDL.h>
+#if WINDOWS
 #include <SDL2_ttf/SDL_ttf.h>
+#else
+#include <SDL_ttf.h>
+#endif
 
 typedef struct {
   SDL_Texture *texture;

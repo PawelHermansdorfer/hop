@@ -1,5 +1,9 @@
 #include <SDL.h>
+#if WINDOWS
 #include <SDL2_ttf/SDL_ttf.h>
+#else
+#include <SDL_ttf.h>
+#endif
 
 #include <main_base.h>
 #include <main_text.h>
