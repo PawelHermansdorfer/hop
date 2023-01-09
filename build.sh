@@ -4,7 +4,7 @@ PROJECT_NAME=main
 PROJECT_FILES="../src/*.c"
 PROJECT_INCLUDES="../src/"
 FLAGS="-Wall -Wextra -std=c11 -pedantic -ggdb -lSDL2 -lSDL2_ttf"
-LIBS='sdl2 sdl2_ttf'
+LIBS='sdl2 SDL2_ttf'
 
 if [ ! -d ./build ]; then
     mkdir ./build
