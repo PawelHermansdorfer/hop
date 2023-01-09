@@ -1,3 +1,4 @@
+#include <string.h>
 #include <SDL.h>
 #if WINDOWS
 #include <SDL2_ttf/SDL_ttf.h>
@@ -9,9 +10,19 @@
 #include <main_text.h>
 
 Text create_text(Sint16 x, Sint16 y, const char *text, SDL_Color color,
-                 Uint8 font_size, SDL_Renderer *renderer) {
+                 Uint8 font_size, SDL_Renderer *renderer, const char path[]) {
 
-  TTF_Font *font = scp(TTF_OpenFont("./fonts/TheJewishBitmap.ttf", font_size));
+  char font_path[260];
+  strcpy(font_path, path);
+  font_path[strlen(font_path) - 8] = '\0'; // remove main.exe from path
+  if (WINDOWS) {
+    strcat(font_path, ".\\fonts\\TheJewishBitmap.ttf");
+  }
+  else {
+    strcat(font_path, "./fonts/TheJewishBitmap.ttf");
+  }
+
+  TTF_Font *font = scp(TTF_OpenFont(font_path, font_size));
   SDL_Surface *text_surface = scp(TTF_RenderText_Solid(font, text, color));
 
   SDL_Texture *text_texture =

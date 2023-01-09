@@ -1,11 +1,13 @@
+#include <SDL.h>
 #include <math.h>
 #include <stdio.h>
-#include <SDL.h>
+#include <string.h>
+
 #if WINDOWS
 #include <SDL2_ttf/SDL_ttf.h>
 #else
 #include <SDL_ttf.h>
-#endif
+#endif // WINDOWS
 
 #include <main_agent.h>
 #include <main_base.h>
@@ -24,23 +26,35 @@ void reset_scene(Platform platforms[NUMBER_OF_PLATFORMS], Agent *hero) {
   *hero = create_agent(DISPLAY_WIDTH / 2 - AGENT_WIDTH / 2, 650 - AGENT_HEIGHT);
 }
 
-int read_best_score(void) {
+int read_best_score(const char path[]) {
+  // Get directory of program
+  char score_file[260];
+  strcpy(score_file, path);
+  score_file[strlen(score_file) - 8] = '\0'; // remove main.exe from path
+  strcat(score_file, "data.dat");
+
   FILE *file;
   int score = 0;
-  /* fopen_s(&file, "best_score.dat", "r"); */
-  file = fopen("best_score.dat", "r");
+
+  file = fopen(score_file, "r");
   if (file) {
     fscanf(file, "%d", &score);
     fclose(file);
   }
+
   return score;
 }
 
-void write_best_score(const char *score_str)
-{
+void write_best_score(const char *score_str, const char path[]) {
+  // Get directory of program
+  char score_file[260];
+  strcpy(score_file, path);
+  score_file[strlen(score_file) - 8] = '\0'; // remove main.exe from path
+  strcat(score_file, "data.dat");
+
+
   FILE *file;
-  /* fopen_s(&file, "best_score.dat", "w"); */
-  file = fopen("best_score.dat", "w");
+  file = fopen(score_file, "w");
   fputs(score_str, file);
   fclose(file);
 }
@@ -77,11 +91,9 @@ int main(int argc, char *argv[]) {
 
   Uint16 score = 0;
   char score_str[64];
-  /* sprintf_s(score_str, 64, "score: %d", score); */
   sprintf(score_str, "score: %d", score);
 
-  
-  Uint16 best_score = read_best_score();
+  Uint16 best_score = read_best_score(argv[0]);
   char best_score_str[64];
   sprintf(best_score_str, "best score: %d", best_score);
 
@@ -90,16 +102,18 @@ int main(int argc, char *argv[]) {
   sprintf(current_score_str, "%d", current_score);
 
   Text score_text = create_text(-1, 65, score_str,
-                                (SDL_Color){255, 255, 255, 255}, 64, renderer);
+                                (SDL_Color){255, 255, 255, 255}, 64, renderer, argv[0]);
 
   Text best_score_text = create_text(
-      -1, 120, best_score_str, (SDL_Color){255, 255, 255, 255}, 32, renderer);
+      -1, 120, best_score_str, (SDL_Color){255, 255, 255, 255}, 32, renderer, argv[0]);
 
-  Text press_space_text = create_text(
-      -1, DISPLAY_HEIGHT-200, "press space to start", (SDL_Color){255, 255, 255, 255}, 42, renderer);
+  Text press_space_text =
+      create_text(-1, DISPLAY_HEIGHT - 200, "press space to start",
+                  (SDL_Color){255, 255, 255, 255}, 42, renderer, argv[0]);
 
-  Text  current_score_text = create_text(
-      -1, DISPLAY_HEIGHT/6, current_score_str, (SDL_Color){255, 255, 255, 255}, 96, renderer);
+  Text current_score_text =
+      create_text(-1, DISPLAY_HEIGHT / 6, current_score_str,
+                  (SDL_Color){255, 255, 255, 255}, 96, renderer, argv[0]);
 
   Uint8 quit = 0;
   SDL_Event event = {0};
@@ -201,13 +215,12 @@ int main(int argc, char *argv[]) {
         game_state = STATE_INPUT_AWAIT;
         reset_scene(platforms, &hero);
 
-
         sprintf(score_str, "Score: %d", score);
         update_text(&score_text, score_str, renderer);
         if (score > best_score) {
           best_score = score;
-        sprintf(best_score_str, "best score: %d", best_score);
-        update_text(&best_score_text, best_score_str, renderer);
+          sprintf(best_score_str, "best score: %d", best_score);
+          update_text(&best_score_text, best_score_str, renderer);
         }
 
         score = 0;
@@ -225,7 +238,7 @@ int main(int argc, char *argv[]) {
     }
   }
   sprintf(best_score_str, "%d", best_score);
-  write_best_score(best_score_str);
+  write_best_score(best_score_str, argv[0]);
 
   free_text(&score_text);
   free_text(&best_score_text);
